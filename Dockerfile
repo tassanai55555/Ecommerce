@@ -1,5 +1,5 @@
-# Use official Golang image as the build stage
-FROM golang:1.24.4 AS builder
+# Build stage (static binary)
+FROM golang:1.24-alpine AS builder
 
 WORKDIR /app
 
@@ -11,7 +11,7 @@ COPY . .
 RUN go build -o ecommerce-backend ./cmd
 
 # Final image
-FROM debian:bullseye-slim
+FROM alpine:latest
 
 WORKDIR /app
 
