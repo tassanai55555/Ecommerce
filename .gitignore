@@ -1,0 +1,38 @@
+# Binaries
+/main
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Build output
+/build
+/dist
+
+# Vendor directories (if not vendoring)
+vendor/
+
+# Dependency directories
+Gopkg.lock
+Gopkg.toml
+
+# IDE/editor settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Env/config files
+.env
+.env.*
+
+# Go tools
+*.test
+coverage.out

@@ -1,0 +1,7 @@
+# Ignore everything you don't need in the container
+.git
+*.md
+*.log
+Dockerfile
+docker-compose.yml
+*.env
