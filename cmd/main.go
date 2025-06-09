@@ -1,19 +1,24 @@
 package main
 
 import (
-    "github.com/gofiber/fiber/v2"
-    "github.com/joho/godotenv"
-    "github.com/tassanai55555/media-city-backend/config"
-    "github.com/tassanai55555/media-city-backend/routes"
+	"ecommerce-backend/database"
+	"ecommerce-backend/routes"
+	"log"
+
+	"github.com/gofiber/fiber/v2"
+	"github.com/joho/godotenv"
 )
 
 func main() {
-    godotenv.Load()
-    config.ConnectDatabase()
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 
-    app := fiber.New()
+	database.Connect()
 
-    routes.SetupRoutes(app)
+	app := fiber.New()
+	routes.Setup(app)
 
-    app.Listen(":3000")
+	log.Fatal(app.Listen(":3000"))
 }

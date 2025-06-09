@@ -1,29 +1,22 @@
-# Use official Golang image as the builder
-FROM golang:1.24.3 as builder
+# Use official Golang image as the build stage
+FROM golang:1.24.4 AS builder
 
-# Set the working directory inside the container
 WORKDIR /app
 
-# Copy go.mod and go.sum and download dependencies
 COPY go.mod go.sum ./
 RUN go mod download
 
-# Copy the rest of the app
 COPY . .
 
-# Build the Go app
-RUN go build -o main ./cmd
+RUN go build -o ecommerce-backend ./cmd
 
-# Use a minimal base image to run the app
-FROM debian:bookworm-slim
+# Final image
+FROM debian:bullseye-slim
 
 WORKDIR /app
 
-# Copy the built binary from the builder stage
-COPY --from=builder /app/main .
+COPY --from=builder /app/ecommerce-backend .
 
-# Expose port
 EXPOSE 3000
 
-# Run the app
-CMD ["./main"]
+CMD ["./ecommerce-backend"]

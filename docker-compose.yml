@@ -3,9 +3,8 @@ version: "3.8"
 services:
   app:
     build: .
-    container_name: media-city-backend
+    container_name: ecommerce-backend
     ports:
       - "3000:3000"
     env_file:
       - .env
-    restart: always

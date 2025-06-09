@@ -1,21 +1,31 @@
 package controllers
 
 import (
-    "github.com/gofiber/fiber/v2"
-    "github.com/tassanai55555/media-city-backend/config"
-    "github.com/tassanai55555/media-city-backend/models"
+	"ecommerce-backend/dto"
+	"ecommerce-backend/services"
+
+	"github.com/gofiber/fiber/v2"
 )
 
-func CreateUser(c *fiber.Ctx) error {
-    user := new(models.User)
+type UserController struct {
+	Service *services.UserService
+}
 
-    if err := c.BodyParser(user); err != nil {
-        return c.Status(400).JSON(fiber.Map{"error": "cannot parse JSON"})
-    }
+func (c *UserController) CreateUser(ctx *fiber.Ctx) error {
+	var body dto.CreateUserRequest
 
-    if err := config.DB.Create(&user).Error; err != nil {
-        return c.Status(500).JSON(fiber.Map{"error": err.Error()})
-    }
+	if err := ctx.BodyParser(&body); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Invalid input",
+		})
+	}
 
-    return c.Status(201).JSON(user)
+	user, err := c.Service.CreateUser(body)
+	if err != nil {
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": err.Error(),
+		})
+	}
+
+	return ctx.Status(fiber.StatusCreated).JSON(user)
 }
